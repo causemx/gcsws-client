@@ -1,12 +1,16 @@
 import asyncio
 import websockets
+import dummy
 
-async def hello(uri):
+async def foo(uri):
     async with websockets.connect(uri) as websocket:
-        await websocket.send("Jimmy")
-        print("(client) send to server: Jimmy")
-        name = await websocket.recv()
-        print(f"(client) recv from server {name}")
+        for _ in range(10):
+            await websocket.send(",".join(str(pt) for pt in dummy.PTLATLNG))
+            # print(f"(client) send to server: {dummy.PTLATLNG}")
+            _recv = await websocket.recv()
+            print(f"(client) recv from server {_recv}")
+            await asyncio.sleep(1)
 
 asyncio.get_event_loop().run_until_complete(
-    hello('ws://localhost:8765'))
+    foo('ws://192.168.50.109:5566/GPSD'))
+
