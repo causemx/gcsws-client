@@ -14,7 +14,8 @@ async def serve_client(uri, data, time_span):
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
-loop.run_until_complete(serve_client('ws://192.168.50.109:5566/Echo'))
+loop.run_until_complete(serve_client('ws://192.168.50.109:5566/Echo', 
+                                     extensions.PTLATLNG, 1))
 
 # asyncio.get_event_loop().run_until_complete(
 #     foo('ws://192.168.50.109:5566/Echo'))
