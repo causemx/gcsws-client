@@ -1,0 +1,23 @@
+@startuml scale 600 width
+
+[*] -> GCS
+GCS : Laptop or MiniComputer
+GCS --> PositionDongle : Succeeded
+GCS --> [*] : !Baselocation->Aborted
+PositionDongle : GPS/RTK or Campass or...
+PositionDongle --> Predicttion : Succeeded
+PositionDongle --> [*] : !PositionRecv->Aborted
+state Predicttion {
+  state "Calculate the forecast position" as long1
+  long1 : A prediction point
+  [*] --> long1
+  long1 --> long1 : Calibration
+  long1 --> FusionData : New Data
+  FusionData: Include campass or something...
+  FusionData --> long1
+}
+Predicttion --> Predicttion : Failed
+Predicttion --> [*] : Succeeded / Save Result
+Predicttion --> [*] : Aborted
+
+@enduml
